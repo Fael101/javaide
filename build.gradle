@@ -3,6 +3,11 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        // repo.maven.apache.org has been answering 404 to Gradle 4.4's HTTP client for
+        // artifacts that are definitely present (asm 5.1, kotlin-stdlib-jre8 1.2.0, both
+        // required transitively by AGP 3.1.3). This Google-hosted mirror serves the same
+        // bytes from a different host and is the fallback that actually resolves them.
+        maven { url 'https://maven-central.storage-download.googleapis.com/maven2/' }
     }
     dependencies {
         // AGP 3.1.3 is the last version that works with this project's Java 7 toolchain
@@ -15,6 +20,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://maven-central.storage-download.googleapis.com/maven2/' }
     }
 }
 

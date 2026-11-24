@@ -66,6 +66,17 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
+      # Tells us whether a resolver failure is the network or Gradle. Cheap and worth
+      # keeping: this project can only be built on a different machine.
+      - name: Probe Maven Central
+        run: |
+          for url in \
+            "https://repo.maven.apache.org/maven2/org/ow2/asm/asm/5.1/asm-5.1.pom" \
+            "https://repo1.maven.org/maven2/org/ow2/asm/asm/5.1/asm-5.1.pom" \
+            "https://maven-central.storage-download.googleapis.com/maven2/org/ow2/asm/asm/5.1/asm-5.1.pom"; do
+            printf '%s  %s\n' "$(curl -s -o /dev/null -w '%{http_code}' "$url")" "$url"
+          done
+
       - name: Build
         run: bash ./gradlew :lib-ai-core:test :app:assembleDebug --no-daemon --stacktrace
 
