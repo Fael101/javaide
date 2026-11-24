@@ -19,8 +19,6 @@ package com.duy.ide.javaide.utils;
 
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
-
 
 /**
  * Created by Duy on 27-Mar-17.
@@ -122,7 +120,11 @@ public class DLog {
     }
 
     public static void reportException(Throwable e) {
-        Crashlytics.logException(e);
+        // Crashlytics was removed from the build: its Gradle plugin lived only on
+        // maven.fabric.io, which no longer exists. Report on the device instead.
+        if (e != null) {
+            Log.e(TAG, "uncaught exception", e);
+        }
     }
 
 }

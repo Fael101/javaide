@@ -1,0 +1,69 @@
+name: build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    name: debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Gradle 4.4 only needs the working tree; the history is large.
+          fetch-depth: 1
+
+      # The current Android command-line tools are built for Java 17 and will not run
+      # under JDK 8, so the SDK is installed first and JDK 8 selected afterwards.
+      - name: JDK 17 for sdkmanager
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install platform 27 and build-tools 27.0.3
+        run: |
+          sdkmanager --install "platforms;android-27" "build-tools;27.0.3" "platform-tools"
+          yes | sdkmanager --licenses > /dev/null || true
+
+      # Gradle 4.4 and AGP 3.1.3 do not run on a newer JDK.
+      - name: JDK 8 for Gradle
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ~/.android/debug.keystore
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Build
+        run: bash ./gradlew :lib-ai-core:test :app:assembleDebug --no-daemon --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: javaide-debug
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 30

@@ -33,13 +33,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize" />
-
-            <com.miguelcatalan.materialsearchview.MaterialSearchView
-                android:id="@+id/search_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="?android:textColorPrimary"
-                app:searchSuggestionBackground="?colorPrimary" />
         </FrameLayout>
 
     </android.support.design.widget.AppBarLayout>

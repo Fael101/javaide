@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -7,7 +6,7 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "com.duy.compiler.javanide"
+        applicationId "com.fael101.javaide"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
@@ -94,23 +93,15 @@ dependencies {
     api project(':lib-google-java-format')
     api project(':androidlogcat')
     api project(':common')
+    api project(':lib-ai-core')
 
     api project(':lib-n-ide-release-10')
-
-    //firebase sdk
-    api "com.google.firebase:firebase-core:16.0.0"
-    api 'com.crashlytics.sdk.android:crashlytics:2.9.3'
-
-    api 'io.github.kobakei:ratethisapp:1.2.0'
-    api 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    api 'com.miguelcatalan:materialsearchview:1.4.0'
 
     /*Lib n-ide*/
     api 'com.google.code.gson:gson:2.8.1'
     api 'com.anjlab.android.iab.v3:library:1.0.44'
     api 'org.apmem.tools:layouts:1.10@aar'
     api 'com.makeramen:roundedimageview:2.2.1'
-    api 'com.yqritc:recyclerview-flexibledivider:1.2.9'
     api 'com.sothree.slidinguppanel:library:3.4.0'
     //noinspection GradleDependency newer version cause crash
     api ('commons-io:commons-io:2.3'){
@@ -133,5 +124,3 @@ dependencies {
     api "com.android.support:design:$supportLibVersion"
     api "com.android.support:preference-v7:$supportLibVersion"
 }
-
-apply plugin: 'com.google.gms.google-services'

@@ -16,13 +16,9 @@ include ':aosp:manifest-merger'
 include ':aosp:profile'
 include ':aosp:project-test-lib'
 
-include ':aosp:gradle'
-include ':aosp:lint'
-include ':aosp:lint-api'
-include ':aosp:lint-checks'
-
 include ':lib-google-java-format'
 include ':lib-decompiler'
 include ':lib-android-compiler'
+include ':lib-ai-core'
 
 include ':lib-n-ide-release-10'
