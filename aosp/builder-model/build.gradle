@@ -21,4 +21,10 @@ android {
 }
 dependencies {
     api project(':aosp:annotations')
+
+    // This module is a partial fork of AGP's builder-model: 31 classes against 61 upstream.
+    // AndroidArtifactOutput extends com.android.build.VariantOutput, which the fork does not
+    // carry, so the upstream artifact supplies it. compileOnly keeps AGP's copies of the
+    // com.android.builder.model.* classes out of the APK, where the fork's own versions win.
+    compileOnly 'com.android.tools.build:builder-model:3.1.3'
 }
