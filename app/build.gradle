@@ -86,6 +86,8 @@ dependencies {
     })
     testImplementation 'junit:junit:4.12'
 
+    // app/libs/README.md explains why recyclerview-flexibledivider is vendored: the
+    // prebuilt editor core references it, and it only ever existed on jcenter.
     api fileTree(dir: 'libs', include: ['*.jar'])
 
     api project(':treeview')
